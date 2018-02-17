@@ -309,6 +309,7 @@ function detectsystem(){
     if [ -z "$ETH" ]; then
         ETH="$(route | grep '^default' | grep -o '[^ ]*$')"
         [ -z "$ETH" ] && ETH="$(ip -4 route list 0/0 | grep -Po '(?<=dev )(\S+)')"
+        ETH="$(echo "$ETH" | xargs | awk '{print $1}')"
     fi
     ethstatus="$(cat /sys/class/net/${ETH}/operstate)"
     if [ -z "$ethstatus" ] || [ "$ethstatus" = "down" ]; then
@@ -1004,6 +1005,7 @@ EOF
     fi
     service fail2ban restart
     rngd -r /dev/urandom
+    sleep 2
     /etc/init.d/shadowsocks start
     echo ""
     sleep 2
@@ -1022,7 +1024,7 @@ function twiststatus(){
     [ ! "$AddrV6" = "false" ] && echo -e "(\033[34;1m${PUBLICIPv6}\033[0m)\c"
     echo -e " \033[32;1mPassWord:\033[0m \033[34;1m${PASSWORD}\033[0m \033[32;1mEncryption:\033[0m \033[34;1m${METHOD}\033[0m \033[32;1mOBFS:\033[0m \033[34;1m${OBFS}\033[0m \033[32;1mOBFS-HOST:\033[0m \033[34;1m${OBFSHOST}\033[0m \033[32;1mOBFS-URI:\033[0m \033[34;1m${OBFSURI}\033[0m \033[32;1mLOCALHOST:\033[0m \033[34;1m${LOACL}:${LOCALPORT}\033[0m]"
     if [ "$serverrestart" = "true" ]; then
-        echo -e "# [\033[34;1mThe Server Requires Restart to Finish Installation, Please Press Enter to Reboot! \033[0m]"
+        echo -e "# [\033[31;1mThe Server Requires Restart to Finish Installation, Please Press Enter to Reboot! \033[0m]"
         read -p ""
         sleep 3
         reboot
