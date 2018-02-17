@@ -125,7 +125,7 @@ sudo twist update
 ```
 You can also update Twist automaticly by using ```crond``` Service
 ```bash
-echo "0 0 1 * * root bash /usr/bin/twist update" >> /etc/crontab
+echo "0 0 1 * * root bash /usr/bin/twist update" >> /etc/crontab && crontab -u root /etc/crontab
 ```
 The commands means **Twist will automaticly check updates on the first day of every month**
 
