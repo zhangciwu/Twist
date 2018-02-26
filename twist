@@ -166,6 +166,7 @@ function uninstall_twist(){
     rm -fr /usr/local/share/doc/shadowsocks-libev
     rm -fr /etc/shadowsocks-libev
     rm -f /etc/init.d/shadowsocks
+    [ ! -d /etc/twistbackup ] && mkdir -p /etc/twistbackup
     [ -e /etc/twistbackup/sysctl.conf ] && { cp -f "/etc/twistbackup/sysctl.conf" "/etc/sysctl.conf"; sysctl -e -p; }
     [ -e /etc/twistbackup/limits.conf ] && cp -f "/etc/twistbackup/limits.conf" "/etc/security/limits.conf"
     [ -e /etc/twistbackup/login ] && cp -f "/etc/twistbackup/login" "/etc/pam.d/login"
